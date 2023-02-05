@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "fir-authentication-584dc": {
+      "hosting": {
+        "FirebaseAuth": [
+          "fir-authentication-584dc"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "fir-authentication-584dc"
+  }
+}
