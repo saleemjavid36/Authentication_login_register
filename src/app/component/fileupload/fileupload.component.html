@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="row">
+        show form
+        <div class="col-md-4">
+            <div>
+                <input type="file" class="text-nowrap text-truncate" (change)="selectFile($event)">
+                <button type="button" class="btn btn-outline-warning" [disabled]="!selectFile" (click)="uploadFile()">Upload</button>
+            </div>
+
+            <div class="progress mt-2">
+                <div class="progress-bar progress-bar-info" role="progressbar" attr.aria-valuenow="{{perentage}}"
+                aria-valuemin="0"  aria-valuemax="100" [ngStyle]="{width:perentage + '%'}">
+                    {{perentage}} %
+                </div>
+            </div>
+
+        </div>
+        display all files
+        <div class="col-md-8"></div>
+    </div>
+</div>

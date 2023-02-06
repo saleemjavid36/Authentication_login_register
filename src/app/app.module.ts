@@ -22,6 +22,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './component/verify-email/verify-email.component';
+import { FileuploadComponent } from './component/fileupload/fileupload.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { VerifyEmailComponent } from './component/verify-email/verify-email.comp
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    FileuploadComponent
   ],
   imports: [
     BrowserModule,
