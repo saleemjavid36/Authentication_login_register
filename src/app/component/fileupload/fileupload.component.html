@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         show form
-        <div class="col-md-4">
+        <div class="col-md-4 mt-5">
             <div>
                 <input type="file" class="text-nowrap text-truncate" (change)="selectFile($event)">
                 <button type="button" class="btn btn-outline-warning" [disabled]="!selectFile" (click)="uploadFile()">Upload</button>

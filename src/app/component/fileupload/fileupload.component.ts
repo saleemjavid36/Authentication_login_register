@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs';
 import { FileMetaData } from 'src/app/model/file-meta-data';
 import { FileService } from 'src/app/shared/file.service';
 
@@ -10,7 +11,7 @@ import { FileService } from 'src/app/shared/file.service';
 })
 export class FileuploadComponent implements OnInit{
   
-  selectedFiles !:FileService  ;
+  selectedFiles !:FileList  ;
   currentFileUpload !:FileMetaData;
   perentage : number=0
 
@@ -25,7 +26,19 @@ export class FileuploadComponent implements OnInit{
   }
 
   uploadFile(){
+    this.currentFileUpload=new FileMetaData(this.selectedFiles[0])
+    const path = 'Uploads/' + this.currentFileUpload.file.name
+    const storageRef =this.fireStorage.ref(path);
+    const uploadTask = storageRef.put(this.selectedFiles[0])
 
+    uploadTask.snapshotChanges().pipe(finalize(()=>{
+
+    })
+    ).subscribe((res:any)=>{
+        this.perentage=(res.bytesTransferred*100/res.res.totalBytes)
+    },err=>{
+      console.log('Error occured');
+    })
   }
 
   getAllFiles(){

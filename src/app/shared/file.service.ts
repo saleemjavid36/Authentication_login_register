@@ -30,9 +30,9 @@ export class FileService {
   }
 
   // delete file
-  deleFile(fileMeta:FileMetaData){
+  deleteFile(fileMeta:FileMetaData){
     this.fireStore.collection('/Uploads').doc(fileMeta.id).delete();
     this.fireStorage.ref('/Uploads/' + fileMeta.name).delete();
-    
+
   }
 }
