@@ -15,10 +15,12 @@ export class FileuploadComponent implements OnInit{
   currentFileUpload !:FileMetaData;
   perentage : number=0
 
+  listOfFiles:FileMetaData[]=[]
 
   constructor(private fileService:FileService,private fireStorage:AngularFireStorage){}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getAllFiles()
+    console.log(this.listOfFiles)
   }
 
   selectFile(event:any){
@@ -28,25 +30,47 @@ export class FileuploadComponent implements OnInit{
   uploadFile(){
     this.currentFileUpload=new FileMetaData(this.selectedFiles[0])
     const path = 'Uploads/' + this.currentFileUpload.file.name
+    
     const storageRef =this.fireStorage.ref(path);
     const uploadTask = storageRef.put(this.selectedFiles[0])
 
     uploadTask.snapshotChanges().pipe(finalize(()=>{
+      storageRef.getDownloadURL().subscribe(downloadLink=>{
+        this.currentFileUpload.id='';
+        this.currentFileUpload.url=downloadLink,
+        this.currentFileUpload.size=this.currentFileUpload.file.size,
+        this.currentFileUpload.name=this.currentFileUpload.file.name;
 
+        this.fileService.saveMetaDataFile(this.currentFileUpload)
+      })
+      this.ngOnInit();
     })
     ).subscribe((res:any)=>{
-        this.perentage=(res.bytesTransferred*100/res.res.totalBytes)
+        this.perentage=(res.bytesTransferred*100/res.totalBytes)
     },err=>{
       console.log('Error occured');
     })
   }
 
   getAllFiles(){
-
+    this.fileService.getAllFiles().subscribe(res=>{
+      this.listOfFiles=res.map((e:any)=>{
+        const data = e.payload.doc.data()
+        data.id= e.payload.doc.id;
+        console.log(data)
+        return data;
+      })
+    },err=>{
+        console.log('Error occured while fetching file meta data')
+    })
   }
 
-  deleteFile(){
-
+  deleteFile(file:FileMetaData){
+    if(window.confirm('Are you sure you want delete ' + file.name + '?')){
+      this.fileService.deleteFile(file)
+      this.ngOnInit()
+    }
+    
   }
 
 }

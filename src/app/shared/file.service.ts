@@ -26,12 +26,12 @@ export class FileService {
 
   // display all files
   getAllFiles(){
-    this.fireStore.collection('/Uploads').snapshotChanges();
+    return this.fireStore.collection('/Upload').snapshotChanges();
   }
 
   // delete file
   deleteFile(fileMeta:FileMetaData){
-    this.fireStore.collection('/Uploads').doc(fileMeta.id).delete();
+    this.fireStore.collection('/Upload').doc(fileMeta.id).delete();
     this.fireStorage.ref('/Uploads/' + fileMeta.name).delete();
 
   }
